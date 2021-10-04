@@ -38,9 +38,23 @@ final class RootViewController: UIViewController {
     shadowButton.autoresizingMask = [.flexibleBottomMargin, .flexibleLeftMargin, .flexibleRightMargin]
     shadowButton.center = CGPoint(x: view.center.x, y: 185)
     self.view.addSubview(shadowButton)
+    
+    let navigateButton = UIButton(type: .system)
+    navigateButton.setTitle("Next ViewController", for: .normal)
+    navigateButton.sizeToFit()
+    navigateButton.addTarget(self, action: #selector(self.navigate), for: .touchUpInside)
+    navigateButton.autoresizingMask = [.flexibleBottomMargin, .flexibleLeftMargin, .flexibleRightMargin]
+    navigateButton.center = CGPoint(x: view.center.x, y: 215)
+    self.view.addSubview(navigateButton)
+    
 
     self.configureAppearance()
     self.configureAccessibility()
+  }
+  
+  @objc func navigate() {
+    let nextController = NextViewController()
+    self.navigationController?.pushViewController(nextController, animated: true)
   }
 
   func configureAppearance() {
@@ -141,4 +155,30 @@ class RespondingButton: UIButton, UIKeyInput {
   var autocorrectionType: UITextAutocorrectionType = .no
   func insertText(_ text: String) {}
   func deleteBackward() {}
+}
+
+class NextViewController: UIViewController {
+    
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    AppUtility.lockOrientation(.landscapeRight, andRotateTo: UIInterfaceOrientation.landscapeRight)
+  }
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+
+    let button = UIButton(type: .system)
+    button.setTitle("Show", for: .normal)
+    button.sizeToFit()
+    button.addTarget(self, action: #selector(self.showButtonTouchUpInside), for: .touchUpInside)
+    button.autoresizingMask = [.flexibleBottomMargin, .flexibleLeftMargin, .flexibleRightMargin]
+    button.center = CGPoint(x: view.center.x, y: 75)
+    self.view.addSubview(button)
+    
+  }
+    
+  @objc dynamic func showButtonTouchUpInside() {
+      Toast(text: "Basic Toast").show()
+    }
+    
 }
