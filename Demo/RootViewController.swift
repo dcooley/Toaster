@@ -69,12 +69,15 @@ class NextViewController: UIViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    print("NextViewController.viewWillAppear()")
+    
     UIDevice.current.setValue(UIInterfaceOrientation.landscapeRight.rawValue, forKey: "orientation")
-    AppUtility.lockOrientation(.landscapeRight)
+    AppUtility.lockOrientation(.landscapeRight, andRotateTo: .landscapeLeft)
   }
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
+    print("NextViewController.viewWillDisappear()")
     AppUtility.lockOrientation(.all)
   }
   
