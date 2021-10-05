@@ -48,16 +48,29 @@ final class RootViewController: UIViewController {
   }
 
   @objc dynamic func showButtonTouchUpInside() {
-    Toast(text: "Basic Toast").show()
+    Toast(text: "Basic Toast", duration: 5.0).show()
   }
 }
 
 
 class NextViewController: UIViewController {
     
+  override var shouldAutorotate: Bool {
+    return false
+  }
+  
+  override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+    return .landscapeRight
+  }
+  
+  override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
+    return .landscapeRight
+  }
+  
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    AppUtility.lockOrientation(.landscapeRight, andRotateTo: UIInterfaceOrientation.landscapeRight)
+    UIDevice.current.setValue(UIInterfaceOrientation.landscapeRight.rawValue, forKey: "orientation")
+    AppUtility.lockOrientation(.landscapeRight)
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -67,7 +80,7 @@ class NextViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-
+    
     let button = UIButton(type: .system)
     button.setTitle("Show", for: .normal)
     button.sizeToFit()
@@ -80,5 +93,5 @@ class NextViewController: UIViewController {
   @objc dynamic func showButtonTouchUpInside() {
       Toast(text: "Basic Toast").show()
     }
-    
+
 }

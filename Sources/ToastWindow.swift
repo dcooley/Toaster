@@ -6,13 +6,24 @@ open class ToastWindow: UIWindow {
 
   public static let shared = ToastWindow(frame: UIScreen.main.bounds, mainWindow: UIApplication.shared.keyWindow)
 
+  private var windowInterfaceOrientation: UIInterfaceOrientation? {
+      if #available(iOS 13.0, *) {
+          return UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
+      } else {
+          return UIApplication.shared.statusBarOrientation
+      }
+  }
+  
+  // need to check if the rootViewController is locked in a given orientation?
+  // - and, does this window respond to the locking change?
+  
   override open var rootViewController: UIViewController? {
     get {
       guard !self.isShowing else {
         isShowing = false
         return nil
       }
-      guard !self.isStatusBarOrientationChanging else { return nil }
+      //guard !self.isStatusBarOrientationChanging else { return nil }
       guard let firstWindow = UIApplication.shared.delegate?.window else { return nil }
       return firstWindow is ToastWindow ? nil : firstWindow?.rootViewController
     }
@@ -70,7 +81,6 @@ open class ToastWindow: UIWindow {
   private var originalSubviews = NSPointerArray.weakObjects()
   
   private weak var mainWindow: UIWindow?
-  
 
   // MARK: - Initializing
 
@@ -96,8 +106,10 @@ open class ToastWindow: UIWindow {
     #endif
     self.backgroundColor = .clear
     self.isHidden = false
-    self.handleRotate(UIApplication.shared.statusBarOrientation)
+    //self.handleRotate(UIApplication.shared.statusBarOrientation)
+    self.handleRotate(windowInterfaceOrientation ?? UIInterfaceOrientation.unknown)
 
+    
     NotificationCenter.default.addObserver(
       self,
       selector: #selector(self.statusBarOrientationWillChange),
