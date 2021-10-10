@@ -164,11 +164,12 @@ open class ToastWindow: UIWindow {
   // MARK: - Private method
 
   @objc private func statusBarOrientationWillChange() {
+      print("ToastWindow.statusBarOrientationWillChange from \(windowInterfaceOrientation?.rawValue)")
     self.isStatusBarOrientationChanging = true
   }
 
   @objc private func statusBarOrientationDidChange() {
-      print("ToastWindow.statusBarOrientationDidChange()")
+      print("ToastWindow.statusBarOrientationDidChange() to \(windowInterfaceOrientation?.rawValue)")
     //let orientation = UIApplication.shared.statusBarOrientation
     self.handleRotate(windowInterfaceOrientation ?? UIInterfaceOrientation.unknown)
     self.isStatusBarOrientationChanging = false
