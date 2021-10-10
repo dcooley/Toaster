@@ -81,12 +81,15 @@ open class ToastWindow: UIWindow {
   private var originalSubviews = NSPointerArray.weakObjects()
   
   private weak var mainWindow: UIWindow?
+    
+    private var previousOrientation: UIInterfaceOrientation?
 
   // MARK: - Initializing
 
   public init(frame: CGRect, mainWindow: UIWindow?) {
     super.init(frame: frame)
     self.mainWindow = mainWindow
+      self.previousOrientation = windowInterfaceOrientation ?? .unknown
     self.isUserInteractionEnabled = false
     self.gestureRecognizers = nil
     #if swift(>=4.2)
@@ -164,12 +167,13 @@ open class ToastWindow: UIWindow {
   // MARK: - Private method
 
   @objc private func statusBarOrientationWillChange() {
-      print("ToastWindow.statusBarOrientationWillChange from \(windowInterfaceOrientation?.rawValue)")
+      print("ToastWindow.statusBarOrientationWillChange from \(previousOrientation?.rawValue)")
     self.isStatusBarOrientationChanging = true
   }
 
   @objc private func statusBarOrientationDidChange() {
       print("ToastWindow.statusBarOrientationDidChange() to \(windowInterfaceOrientation?.rawValue)")
+      previousOrientation = windowInterfaceOrientation
     //let orientation = UIApplication.shared.statusBarOrientation
     self.handleRotate(windowInterfaceOrientation ?? UIInterfaceOrientation.unknown)
     self.isStatusBarOrientationChanging = false
@@ -227,6 +231,14 @@ open class ToastWindow: UIWindow {
     case .portraitUpsideDown: return .pi
     default: return 0
     }
+      
+//      switch (previousOrientation, orientation) {
+//
+//      case (.unknown, .unknown):
+//          return 0
+//      case (.landscapeRight, .landscapeLeft):
+//          return .pi
+//      }
   }
 
   /// Returns top window that isn't self
