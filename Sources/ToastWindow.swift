@@ -82,14 +82,14 @@ open class ToastWindow: UIWindow {
   
   private weak var mainWindow: UIWindow?
     
-    private var previousOrientation: UIInterfaceOrientation?
+    //private var previousOrientation: UIInterfaceOrientation?
 
   // MARK: - Initializing
 
   public init(frame: CGRect, mainWindow: UIWindow?) {
     super.init(frame: frame)
     self.mainWindow = mainWindow
-      self.previousOrientation = windowInterfaceOrientation ?? .unknown
+      //self.previousOrientation = windowInterfaceOrientation ?? .unknown
     self.isUserInteractionEnabled = false
     self.gestureRecognizers = nil
     #if swift(>=4.2)
@@ -167,20 +167,20 @@ open class ToastWindow: UIWindow {
   // MARK: - Private method
 
   @objc private func statusBarOrientationWillChange() {
-      print("ToastWindow.statusBarOrientationWillChange from \(previousOrientation?.rawValue)")
+      //print("ToastWindow.statusBarOrientationWillChange from \(previousOrientation?.rawValue)")
     self.isStatusBarOrientationChanging = true
   }
 
   @objc private func statusBarOrientationDidChange() {
-      print("ToastWindow.statusBarOrientationDidChange() to \(windowInterfaceOrientation?.rawValue)")
+      //print("ToastWindow.statusBarOrientationDidChange() to \(windowInterfaceOrientation?.rawValue)")
     //let orientation = UIApplication.shared.statusBarOrientation
     self.handleRotate(windowInterfaceOrientation ?? UIInterfaceOrientation.unknown)
     self.isStatusBarOrientationChanging = false
-      previousOrientation = windowInterfaceOrientation
+      //previousOrientation = windowInterfaceOrientation
   }
 
   @objc private func applicationDidBecomeActive() {
-      print("ToastWindow.applicationDidBecomeActive()")
+      //print("ToastWindow.applicationDidBecomeActive()")
     //let orientation = UIApplication.shared.statusBarOrientation
     self.handleRotate(windowInterfaceOrientation ?? UIInterfaceOrientation.unknown)
   }
@@ -203,7 +203,7 @@ open class ToastWindow: UIWindow {
   private func handleRotate(_ orientation: UIInterfaceOrientation) {
     if self.shouldRotateManually {
         let angle = self.angleForOrientation(orientation)
-        print("ToastWindow.handleRotate \(orientation.rawValue), \(angle * 180 / .pi)")
+        //print("ToastWindow.handleRotate \(orientation.rawValue), \(angle * 180 / .pi)")
       self.transform = CGAffineTransform(rotationAngle: CGFloat(angle))
     }
     
@@ -224,6 +224,10 @@ open class ToastWindow: UIWindow {
     }
   }
 
+    // angleForOrientation
+    // returns the angle of the device orientation relative to portrait
+    // but if we're coming from a 'locked' orientation...
+    // needs to behave differently?
   private func angleForOrientation(_ orientation: UIInterfaceOrientation) -> Double {
     switch orientation {
     case .landscapeLeft: return -.pi / 2
