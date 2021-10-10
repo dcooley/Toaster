@@ -201,9 +201,9 @@ open class ToastWindow: UIWindow {
   }
   
   private func handleRotate(_ orientation: UIInterfaceOrientation) {
-    let angle = self.angleForOrientation(orientation)
-    print("ToastWindow.handleRotate \(orientation.rawValue), \(angle * 180 / .pi)")
     if self.shouldRotateManually {
+        let angle = self.angleForOrientation(orientation)
+        print("ToastWindow.handleRotate \(orientation.rawValue), \(angle * 180 / .pi)")
       self.transform = CGAffineTransform(rotationAngle: CGFloat(angle))
     }
     
@@ -226,12 +226,8 @@ open class ToastWindow: UIWindow {
 
   private func angleForOrientation(_ orientation: UIInterfaceOrientation) -> Double {
     switch orientation {
-    case .landscapeLeft:
-        //return previousOrientation == .landscapeRight ? 0 : -.pi / 2
-        return -.pi / 2
-    case .landscapeRight:
-        //return previousOrientation == .landscapeLeft ? 0 : .pi / 2
-        return .pi / 2
+    case .landscapeLeft: return -.pi / 2
+    case .landscapeRight: return .pi / 2
     case .portraitUpsideDown: return .pi
     default: return 0
     }
