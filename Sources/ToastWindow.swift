@@ -195,7 +195,7 @@ open class ToastWindow: UIWindow {
   
   private func handleRotate(_ orientation: UIInterfaceOrientation) {
     let angle = self.angleForOrientation(orientation)
-    print("ToastWindow.handleRotate \(orientation), \(angle * 180 / .pi)")
+    print("ToastWindow.handleRotate \(orientation.rawValue), \(angle * 180 / .pi)")
     if self.shouldRotateManually {
       self.transform = CGAffineTransform(rotationAngle: CGFloat(angle))
     }
