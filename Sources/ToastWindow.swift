@@ -6,7 +6,7 @@ open class ToastWindow: UIWindow {
 
   public static let shared = ToastWindow(frame: UIScreen.main.bounds, mainWindow: UIApplication.shared.keyWindow)
 
-  private var windowInterfaceOrientation: UIInterfaceOrientation? {
+    private var windowInterfaceOrientation: UIInterfaceOrientation? {
       if #available(iOS 13.0, *) {
           return UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
       } else {
@@ -168,14 +168,14 @@ open class ToastWindow: UIWindow {
   }
 
   @objc private func statusBarOrientationDidChange() {
-    let orientation = UIApplication.shared.statusBarOrientation
-    self.handleRotate(orientation)
+    //let orientation = UIApplication.shared.statusBarOrientation
+    self.handleRotate(windowInterfaceOrientation ?? UIInterfaceOrientation.unknown)
     self.isStatusBarOrientationChanging = false
   }
 
   @objc private func applicationDidBecomeActive() {
-    let orientation = UIApplication.shared.statusBarOrientation
-    self.handleRotate(orientation)
+    //let orientation = UIApplication.shared.statusBarOrientation
+    self.handleRotate(windowInterfaceOrientation ?? UIInterfaceOrientation.unknown)
   }
 
   @objc private func keyboardWillShow() {
@@ -195,6 +195,7 @@ open class ToastWindow: UIWindow {
   
   private func handleRotate(_ orientation: UIInterfaceOrientation) {
     let angle = self.angleForOrientation(orientation)
+    print("ToastWindow.handleRotate \(orientation), \(angle * 180 / .pi)")
     if self.shouldRotateManually {
       self.transform = CGAffineTransform(rotationAngle: CGFloat(angle))
     }
