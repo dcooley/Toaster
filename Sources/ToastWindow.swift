@@ -227,11 +227,11 @@ open class ToastWindow: UIWindow {
   private func angleForOrientation(_ orientation: UIInterfaceOrientation) -> Double {
     switch orientation {
     case .landscapeLeft:
-        return previousOrientation == .landscapeRight ? 0 : -.pi / 2
-        //return -.pi / 2
+        //return previousOrientation == .landscapeRight ? 0 : -.pi / 2
+        return -.pi / 2
     case .landscapeRight:
-        return previousOrientation == .landscapeLeft ? 0 : .pi / 2
-        //return .pi / 2
+        //return previousOrientation == .landscapeLeft ? 0 : .pi / 2
+        return .pi / 2
     case .portraitUpsideDown: return .pi
     default: return 0
     }
